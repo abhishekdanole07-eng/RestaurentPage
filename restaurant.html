@@ -1,0 +1,1997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savor & Sage | Artisan Dining Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #c9a96e;
+            --primary-dark: #a88b52;
+            --dark: #0f0f0f;
+            --darker: #1a1a1a;
+            --card: #242424;
+            --text: #f5f5f5;
+            --text-muted: #888;
+            --success: #4ade80;
+            --danger: #ef4444;
+            --warning: #fbbf24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(201, 169, 110, 0.1);
+            transition: all 0.3s;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--danger);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-weight: 600;
+        }
+
+        .admin-toggle {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 0.5rem 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .admin-toggle:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(15,15,15,0.8) 0%, rgba(26,26,26,0.6) 100%), 
+                        url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920&q=80') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            z-index: 2;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--primary) 0%, #f5f5f5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2.5rem;
+            background: var(--primary);
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(201, 169, 110, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(201, 169, 110, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            margin-left: 1rem;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-danger:hover {
+            box-shadow: 0 6px 25px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: #064e3b;
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3);
+        }
+
+        /* Floating Elements Animation */
+        .floating {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(201, 169, 110, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: -5%;
+            animation-delay: 0s;
+        }
+
+        .floating:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            bottom: 10%;
+            right: -5%;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Menu Section */
+        .menu-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.6rem 1.5rem;
+            background: var(--card);
+            border: 1px solid rgba(201, 169, 110, 0.2);
+            color: var(--text);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary);
+            color: var(--dark);
+            border-color: var(--primary);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-card {
+            background: var(--card);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(201, 169, 110, 0.1);
+            transition: all 0.4s;
+            position: relative;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(201, 169, 110, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .menu-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+
+        .menu-card:hover .menu-image {
+            transform: scale(1.05);
+        }
+
+        .menu-content {
+            padding: 1.5rem;
+        }
+
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .menu-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .menu-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .menu-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-tags {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            padding: 0.2rem 0.6rem;
+            background: rgba(201, 169, 110, 0.15);
+            color: var(--primary);
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .add-to-cart {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: none;
+            color: var(--dark);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .add-to-cart:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(201, 169, 110, 0.4);
+        }
+
+        /* Services Section */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--card);
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(201, 169, 110, 0.1);
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(201, 169, 110, 0.3);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 450px;
+            max-width: 100%;
+            height: 100vh;
+            background: var(--darker);
+            z-index: 2000;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid rgba(201, 169, 110, 0.1);
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .cart-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .cart-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(201, 169, 110, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-cart:hover {
+            color: var(--primary);
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--card);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+
+        .cart-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .cart-item-price {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .qty-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .qty-btn:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        .cart-footer {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(201, 169, 110, 0.1);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            display: none;
+            padding: 6rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .admin-sidebar {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .admin-nav {
+            list-style: none;
+        }
+
+        .admin-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-nav button {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            text-align: left;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .admin-nav button:hover, .admin-nav button.active {
+            background: rgba(201, 169, 110, 0.15);
+            color: var(--primary);
+        }
+
+        .admin-content {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 2rem;
+            min-height: 500px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: var(--darker);
+            border: 1px solid rgba(201, 169, 110, 0.2);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(201, 169, 110, 0.1);
+        }
+
+        .admin-table th {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .admin-table img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            color: white;
+        }
+
+        .action-btn.edit {
+            background: var(--warning);
+            color: var(--dark);
+        }
+
+        .action-btn.delete {
+            background: var(--danger);
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Orders Section */
+        .order-card {
+            background: var(--darker);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(201, 169, 110, 0.1);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(201, 169, 110, 0.1);
+        }
+
+        .order-id {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .order-status {
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: rgba(251, 191, 36, 0.2);
+            color: var(--warning);
+        }
+
+        .status-completed {
+            background: rgba(74, 222, 128, 0.2);
+            color: var(--success);
+        }
+
+        .order-items {
+            margin-bottom: 1rem;
+        }
+
+        .order-item-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            color: var(--text-muted);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid rgba(201, 169, 110, 0.2);
+            animation: fadeInUp 0.3s;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--card);
+            color: var(--text);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+            z-index: 4000;
+            transform: translateX(400px);
+            transition: transform 0.4s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left-color: var(--success);
+        }
+
+        .toast.error {
+            border-left-color: var(--danger);
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--card) 0%, var(--darker) 100%);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(201, 169, 110, 0.1);
+        }
+
+        .stat-card h4 {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            padding: 4rem 5% 2rem;
+            border-top: 1px solid rgba(201, 169, 110, 0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .footer-links h4 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s;
+            border: 1px solid rgba(201, 169, 110, 0.2);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(201, 169, 110, 0.1);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+            .admin-sidebar {
+                position: static;
+            }
+            .nav-links {
+                display: none;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .cart-sidebar {
+                width: 100%;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Checkout Form */
+        .checkout-form {
+            margin-top: 1rem;
+        }
+
+        .checkout-form input {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+            background: var(--darker);
+            border: 1px solid rgba(201, 169, 110, 0.2);
+            border-radius: 8px;
+            color: var(--text);
+        }
+
+        .checkout-form input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Loading */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(201, 169, 110, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="#" class="logo" onclick="showSection('home')">
+            <i class="fas fa-utensils"></i>
+            Savor & Sage
+        </a>
+        <ul class="nav-links">
+            <li><a href="#" onclick="showSection('home')" class="active">Home</a></li>
+            <li><a href="#" onclick="showSection('menu')">Menu</a></li>
+            <li><a href="#" onclick="showSection('services')">Services</a></li>
+            <li><a href="#" onclick="showSection('about')">About</a></li>
+            <li><a href="#" onclick="showSection('contact')">Contact</a></li>
+            <li>
+                <div class="cart-icon" onclick="toggleCart()">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+            </li>
+            <li><button class="admin-toggle" onclick="toggleAdmin()"><i class="fas fa-lock"></i> Admin</button></li>
+        </ul>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
+    </nav>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3><i class="fas fa-shopping-bag"></i> Your Order</h3>
+            <button class="close-cart" onclick="toggleCart()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="empty-state">
+                <i class="fas fa-shopping-basket"></i>
+                <p>Your cart is empty</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <button class="btn" style="width: 100%; margin-bottom: 0.5rem;" onclick="showCheckout()">
+                <i class="fas fa-credit-card"></i> Checkout
+            </button>
+            <button class="btn btn-outline" style="width: 100%;" onclick="clearCart()">
+                <i class="fas fa-trash"></i> Clear Cart
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main id="mainContent">
+        <!-- Home / Hero -->
+        <section id="homeSection" class="hero">
+            <div class="floating"></div>
+            <div class="floating"></div>
+            <div class="hero-content">
+                <h1>Savor & Sage</h1>
+                <p>Experience culinary excellence where every dish tells a story of passion, heritage, and the finest ingredients sourced from around the world.</p>
+                <div>
+                    <a href="#" class="btn" onclick="showSection('menu')">
+                        <i class="fas fa-book-open"></i> View Menu
+                    </a>
+                    <a href="#" class="btn btn-outline" onclick="showSection('services')">
+                        <i class="fas fa-concierge-bell"></i> Our Services
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Menu Section -->
+        <section id="menuSection">
+            <div class="section-header">
+                <h2>Our Menu</h2>
+                <p>Discover our carefully curated selection of dishes, crafted with passion and the finest ingredients</p>
+            </div>
+            
+            <div class="menu-filters" id="menuFilters">
+                <button class="filter-btn active" onclick="filterMenu('all')">All</button>
+                <button class="filter-btn" onclick="filterMenu('appetizer')">Appetizers</button>
+                <button class="filter-btn" onclick="filterMenu('main')">Main Course</button>
+                <button class="filter-btn" onclick="filterMenu('dessert')">Desserts</button>
+                <button class="filter-btn" onclick="filterMenu('beverage')">Beverages</button>
+            </div>
+
+            <div class="menu-grid" id="menuGrid">
+                <!-- Menu items injected here -->
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="servicesSection">
+            <div class="section-header">
+                <h2>Our Services</h2>
+                <p>Beyond exceptional dining, we offer a range of premium services tailored to your needs</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-birthday-cake"></i></div>
+                    <h3>Private Events</h3>
+                    <p>Host your special celebrations in our elegant private dining rooms. Perfect for birthdays, anniversaries, and corporate gatherings with custom menus.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-truck"></i></div>
+                    <h3>Catering</h3>
+                    <p>Bring the Savor & Sage experience to your venue. Full-service catering for weddings, corporate events, and private parties up to 500 guests.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-calendar-check"></i></div>
+                    <h3>Reservations</h3>
+                    <p>Reserve your table online with instant confirmation. VIP table management and priority seating for our regular guests.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-wine-glass-alt"></i></div>
+                    <h3>Wine Pairing</h3>
+                    <p>Expert sommelier-curated wine pairings for every course. Featuring over 200 labels from prestigious vineyards worldwide.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-utensils"></i></div>
+                    <h3>Cooking Classes</h3>
+                    <p>Learn from our executive chefs in intimate hands-on classes. From pasta making to advanced plating techniques.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-home"></i></div>
+                    <h3>Chef at Home</h3>
+                    <p>Enjoy a private dining experience in your home. Our chefs prepare and serve a multi-course meal tailored to your preferences.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="aboutSection">
+            <div class="section-header">
+                <h2>Our Story</h2>
+                <p>A journey of passion, tradition, and culinary innovation</p>
+            </div>
+            <div style="max-width: 800px; margin: 0 auto; text-align: center; color: var(--text-muted); line-height: 1.8; font-size: 1.1rem;">
+                <p style="margin-bottom: 1.5rem;">
+                    Founded in 2015 by Chef Marcus Aurelius, Savor & Sage began as a small bistro with a big dream: 
+                    to create an unforgettable dining experience that honors traditional techniques while embracing modern innovation.
+                </p>
+                <p style="margin-bottom: 1.5rem;">
+                    Our team of world-class chefs sources ingredients from local organic farms and international specialty suppliers, 
+                    ensuring every dish meets our exacting standards of quality and sustainability.
+                </p>
+                <p>
+                    Today, Savor & Sage stands as a beacon of culinary excellence, having earned two Michelin stars 
+                    and the hearts of food lovers from around the globe.
+                </p>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contactSection">
+            <div class="section-header">
+                <h2>Contact Us</h2>
+                <p>We'd love to hear from you. Reach out for reservations, inquiries, or feedback</p>
+            </div>
+            <div style="max-width: 600px; margin: 0 auto;">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" placeholder="Your name">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea rows="5" placeholder="How can we help you?"></textarea>
+                </div>
+                <button class="btn" style="width: 100%;" onclick="showToast('Message sent successfully!', 'success')">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="section-header">
+            <h2><i class="fas fa-cog"></i> Admin Dashboard</h2>
+            <p>Manage your menu, orders, and restaurant settings</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h4>Total Menu Items</h4>
+                <div class="stat-value" id="statMenuItems">0</div>
+            </div>
+            <div class="stat-card">
+                <h4>Total Orders</h4>
+                <div class="stat-value" id="statOrders">0</div>
+            </div>
+            <div class="stat-card">
+                <h4>Revenue</h4>
+                <div class="stat-value" id="statRevenue">$0</div>
+            </div>
+            <div class="stat-card">
+                <h4>Pending Orders</h4>
+                <div class="stat-value" id="statPending">0</div>
+            </div>
+        </div>
+
+        <div class="admin-grid">
+            <div class="admin-sidebar">
+                <ul class="admin-nav">
+                    <li><button class="active" onclick="showAdminTab('menu')"><i class="fas fa-book"></i> Menu Items</button></li>
+                    <li><button onclick="showAdminTab('orders')"><i class="fas fa-receipt"></i> Orders</button></li>
+                    <li><button onclick="showAdminTab('add')"><i class="fas fa-plus-circle"></i> Add Item</button></li>
+                    <li><button onclick="toggleAdmin()"><i class="fas fa-arrow-left"></i> Back to Site</button></li>
+                </ul>
+            </div>
+            <div class="admin-content" id="adminContent">
+                <!-- Admin content injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Complete Your Order</h3>
+                <button class="close-modal" onclick="closeCheckout()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="checkout-form">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="checkoutName" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="checkoutPhone" placeholder="+1 (555) 000-0000">
+                </div>
+                <div class="form-group">
+                    <label>Delivery Address</label>
+                    <input type="text" id="checkoutAddress" placeholder="123 Main St, City">
+                </div>
+                <div class="form-group">
+                    <label>Special Instructions</label>
+                    <input type="text" id="checkoutNotes" placeholder="Any allergies or preferences...">
+                </div>
+                <div style="background: var(--darker); padding: 1rem; border-radius: 10px; margin: 1rem 0;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span>Subtotal:</span>
+                        <span id="checkoutSubtotal">$0.00</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span>Tax (8%):</span>
+                        <span id="checkoutTax">$0.00</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-weight: 700; color: var(--primary); font-size: 1.2rem;">
+                        <span>Total:</span>
+                        <span id="checkoutTotal">$0.00</span>
+                    </div>
+                </div>
+                <button class="btn" style="width: 100%;" onclick="placeOrder()">
+                    <i class="fas fa-check-circle"></i> Place Order
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Item added to cart!</span>
+    </div>
+
+    <script>
+        // Data Storage
+        const Storage = {
+            getMenu: () => JSON.parse(localStorage.getItem('savorMenu')) || [],
+            setMenu: (data) => localStorage.setItem('savorMenu', JSON.stringify(data)),
+            getOrders: () => JSON.parse(localStorage.getItem('savorOrders')) || [],
+            setOrders: (data) => localStorage.setItem('savorOrders', JSON.stringify(data)),
+            getCart: () => JSON.parse(localStorage.getItem('savorCart')) || [],
+            setCart: (data) => localStorage.setItem('savorCart', JSON.stringify(data))
+        };
+
+        // Initialize with sample data if empty
+        function initData() {
+            if (Storage.getMenu().length === 0) {
+                const sampleMenu = [
+                    {
+                        id: 1,
+                        name: "Truffle Arancini",
+                        description: "Crispy risotto balls infused with black truffle, served with garlic aioli and micro herbs",
+                        price: 14,
+                        category: "appetizer",
+                        image: "https://images.unsplash.com/photo-1541529086526-db283c563270?w=400&q=80",
+                        tags: ["Vegetarian", "Chef's Pick"]
+                    },
+                    {
+                        id: 2,
+                        name: "Wagyu Beef Carpaccio",
+                        description: "Thinly sliced A5 wagyu with truffle oil, parmesan shavings, and caper berries",
+                        price: 28,
+                        category: "appetizer",
+                        image: "https://images.unsplash.com/photo-1514326640560-7d063ef2aed5?w=400&q=80",
+                        tags: ["Premium", "Gluten-Free"]
+                    },
+                    {
+                        id: 3,
+                        name: "Pan-Seared Scallops",
+                        description: "Jumbo scallops with cauliflower purée, crispy pancetta, and lemon butter sauce",
+                        price: 22,
+                        category: "appetizer",
+                        image: "https://images.unsplash.com/photo-1599084993091-1cb5c0721cc6?w=400&q=80",
+                        tags: ["Seafood", "Popular"]
+                    },
+                    {
+                        id: 4,
+                        name: "Herb-Crusted Lamb Rack",
+                        description: "New Zealand lamb with rosemary jus, fondant potatoes, and seasonal vegetables",
+                        price: 42,
+                        category: "main",
+                        image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80",
+                        tags: ["Signature", "Premium"]
+                    },
+                    {
+                        id: 5,
+                        name: "Miso Glazed Black Cod",
+                        description: "Sustainably sourced cod with sweet miso marinade, bok choy, and ginger dashi",
+                        price: 38,
+                        category: "main",
+                        image: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80",
+                        tags: ["Seafood", "Healthy"]
+                    },
+                    {
+                        id: 6,
+                        name: "Wild Mushroom Risotto",
+                        description: "Arborio rice with porcini, chanterelle, and truffle oil, finished with aged parmesan",
+                        price: 26,
+                        category: "main",
+                        image: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=400&q=80",
+                        tags: ["Vegetarian", "Popular"]
+                    },
+                    {
+                        id: 7,
+                        name: "Dark Chocolate Fondant",
+                        description: "Molten center chocolate cake with Madagascar vanilla ice cream and berry compote",
+                        price: 16,
+                        category: "dessert",
+                        image: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=400&q=80",
+                        tags: ["Sweet", "Chef's Pick"]
+                    },
+                    {
+                        id: 8,
+                        name: "Crème Brûlée",
+                        description: "Classic vanilla bean custard with caramelized sugar crust and fresh raspberries",
+                        price: 12,
+                        category: "dessert",
+                        image: "https://images.unsplash.com/photo-1470324161839-ce2bb6fa6bc3?w=400&q=80",
+                        tags: ["Classic", "Vegetarian"]
+                    },
+                    {
+                        id: 9,
+                        name: "Artisan Cocktails",
+                        description: "Selection of handcrafted cocktails featuring premium spirits and house-made syrups",
+                        price: 15,
+                        category: "beverage",
+                        image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400&q=80",
+                        tags: ["Alcoholic", "Happy Hour"]
+                    },
+                    {
+                        id: 10,
+                        name: "Cold Brew Coffee",
+                        description: "24-hour steeped single-origin coffee served over ice with vanilla cream",
+                        price: 8,
+                        category: "beverage",
+                        image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&q=80",
+                        tags: ["Non-Alcoholic", "Fresh"]
+                    }
+                ];
+                Storage.setMenu(sampleMenu);
+            }
+        }
+
+        // State
+        let currentFilter = 'all';
+        let isAdmin = false;
+        let editingItem = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initData();
+            renderMenu();
+            updateCartUI();
+            updateStats();
+        });
+
+        // Navigation
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(s => s.style.display = 'none');
+            document.getElementById('adminPanel').classList.remove('active');
+            
+            // Show selected
+            if (section === 'home') {
+                document.getElementById('homeSection').style.display = 'flex';
+                document.getElementById('menuSection').style.display = 'block';
+            } else if (section === 'menu') {
+                document.getElementById('menuSection').style.display = 'block';
+            } else if (section === 'services') {
+                document.getElementById('servicesSection').style.display = 'block';
+            } else if (section === 'about') {
+                document.getElementById('aboutSection').style.display = 'block';
+            } else if (section === 'contact') {
+                document.getElementById('contactSection').style.display = 'block';
+            }
+            
+            // Update nav active state
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Menu Functions
+        function renderMenu() {
+            const menu = Storage.getMenu();
+            const grid = document.getElementById('menuGrid');
+            const filtered = currentFilter === 'all' ? menu : menu.filter(item => item.category === currentFilter);
+            
+            grid.innerHTML = filtered.map(item => `
+                <div class="menu-card fade-in">
+                    <img src="${item.image}" alt="${item.name}" class="menu-image" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3 class="menu-title">${item.name}</h3>
+                            <span class="menu-price">$${item.price}</span>
+                        </div>
+                        <p class="menu-desc">${item.description}</p>
+                        <div class="menu-meta">
+                            <div class="menu-tags">
+                                ${item.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                            </div>
+                            <button class="add-to-cart" onclick="addToCart(${item.id})">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterMenu(category) {
+            currentFilter = category;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderMenu();
+        }
+
+        // Cart Functions
+        function addToCart(itemId) {
+            const menu = Storage.getMenu();
+            const item = menu.find(i => i.id === itemId);
+            const cart = Storage.getCart();
+            
+            const existing = cart.find(c => c.id === itemId);
+            if (existing) {
+                existing.quantity++;
+            } else {
+                cart.push({ ...item, quantity: 1 });
+            }
+            
+            Storage.setCart(cart);
+            updateCartUI();
+            showToast(`${item.name} added to cart!`, 'success');
+        }
+
+        function updateCartUI() {
+            const cart = Storage.getCart();
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
+            
+            const container = document.getElementById('cartItems');
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-shopping-basket"></i>
+                        <p>Your cart is empty</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-price">$${item.price}</div>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                                <span>${item.quantity}</span>
+                                <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                            </div>
+                        </div>
+                        <button class="action-btn delete" onclick="removeFromCart(${item.id})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('cartTotal').textContent = `$${total.toFixed(2)}`;
+        }
+
+        function updateQuantity(itemId, change) {
+            const cart = Storage.getCart();
+            const item = cart.find(c => c.id === itemId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(itemId);
+                    return;
+                }
+                Storage.setCart(cart);
+                updateCartUI();
+            }
+        }
+
+        function removeFromCart(itemId) {
+            let cart = Storage.getCart();
+            cart = cart.filter(c => c.id !== itemId);
+            Storage.setCart(cart);
+            updateCartUI();
+            showToast('Item removed from cart', 'success');
+        }
+
+        function clearCart() {
+            Storage.setCart([]);
+            updateCartUI();
+            showToast('Cart cleared', 'success');
+        }
+
+        function toggleCart() {
+            document.getElementById('cartSidebar').classList.toggle('open');
+            document.getElementById('cartOverlay').classList.toggle('open');
+        }
+
+        // Checkout
+        function showCheckout() {
+            const cart = Storage.getCart();
+            if (cart.length === 0) {
+                showToast('Your cart is empty!', 'error');
+                return;
+            }
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.08;
+            const total = subtotal + tax;
+            
+            document.getElementById('checkoutSubtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('checkoutTax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('checkoutTotal').textContent = `$${total.toFixed(2)}`;
+            
+            document.getElementById('checkoutModal').classList.add('active');
+            toggleCart();
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkoutModal').classList.remove('active');
+        }
+
+        function placeOrder() {
+            const name = document.getElementById('checkoutName').value;
+            const phone = document.getElementById('checkoutPhone').value;
+            const address = document.getElementById('checkoutAddress').value;
+            
+            if (!name || !phone || !address) {
+                showToast('Please fill in all fields', 'error');
+                return;
+            }
+            
+            const cart = Storage.getCart();
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.08;
+            const total = subtotal + tax;
+            
+            const order = {
+                id: 'ORD-' + Date.now(),
+                customer: { name, phone, address, notes: document.getElementById('checkoutNotes').value },
+                items: cart,
+                subtotal,
+                tax,
+                total,
+                status: 'pending',
+                date: new Date().toISOString()
+            };
+            
+            const orders = Storage.getOrders();
+            orders.unshift(order);
+            Storage.setOrders(orders);
+            
+            Storage.setCart([]);
+            updateCartUI();
+            closeCheckout();
+            updateStats();
+            
+            showToast(`Order ${order.id} placed successfully!`, 'success');
+        }
+
+        // Admin Panel
+        function toggleAdmin() {
+            isAdmin = !isAdmin;
+            const adminPanel = document.getElementById('adminPanel');
+            const mainContent = document.getElementById('mainContent');
+            
+            if (isAdmin) {
+                adminPanel.classList.add('active');
+                mainContent.style.display = 'none';
+                showAdminTab('menu');
+                updateStats();
+            } else {
+                adminPanel.classList.remove('active');
+                mainContent.style.display = 'block';
+                showSection('home');
+            }
+        }
+
+        function showAdminTab(tab) {
+            document.querySelectorAll('.admin-nav button').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const content = document.getElementById('adminContent');
+            
+            if (tab === 'menu') {
+                const menu = Storage.getMenu();
+                content.innerHTML = `
+                    <h3 style="margin-bottom: 1.5rem; color: var(--primary);">Menu Management</h3>
+                    <div style="overflow-x: auto;">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${menu.map(item => `
+                                    <tr>
+                                        <td><img src="${item.image}" alt="${item.name}"></td>
+                                        <td><strong>${item.name}</strong><br><small style="color: var(--text-muted);">${item.description.substring(0, 50)}...</small></td>
+                                        <td><span class="tag">${item.category}</span></td>
+                                        <td style="color: var(--primary); font-weight: 700;">$${item.price}</td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="action-btn edit" onclick="editItem(${item.id})"><i class="fas fa-edit"></i></button>
+                                                <button class="action-btn delete" onclick="deleteItem(${item.id})"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            } else if (tab === 'orders') {
+                const orders = Storage.getOrders();
+                content.innerHTML = `
+                    <h3 style="margin-bottom: 1.5rem; color: var(--primary);">Order Management</h3>
+                    ${orders.length === 0 ? '<div class="empty-state"><i class="fas fa-receipt"></i><p>No orders yet</p></div>' : 
+                    orders.map(order => `
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div>
+                                    <div class="order-id">${order.id}</div>
+                                    <small style="color: var(--text-muted);">${new Date(order.date).toLocaleString()}</small>
+                                </div>
+                                <span class="order-status status-${order.status}">${order.status.toUpperCase()}</span>
+                            </div>
+                            <div class="order-items">
+                                ${order.items.map(item => `
+                                    <div class="order-item-row">
+                                        <span>${item.name} x${item.quantity}</span>
+                                        <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div style="border-top: 1px solid rgba(201,169,110,0.1); padding-top: 1rem; display: flex; justify-content: space-between; font-weight: 700; color: var(--primary);">
+                                <span>Total: $${order.total.toFixed(2)}</span>
+                                <span>${order.customer.name}</span>
+                            </div>
+                            ${order.status === 'pending' ? `
+                                <button class="btn btn-success" style="margin-top: 1rem; width: 100%;" onclick="completeOrder('${order.id}')">
+                                    <i class="fas fa-check"></i> Mark as Completed
+                                </button>
+                            ` : ''}
+                        </div>
+                    `).join('')}
+                `;
+            } else if (tab === 'add') {
+                editingItem = null;
+                content.innerHTML = getItemForm();
+            }
+        }
+
+        function getItemForm() {
+            const item = editingItem || {};
+            return `
+                <h3 style="margin-bottom: 1.5rem; color: var(--primary);">${editingItem ? 'Edit' : 'Add New'} Menu Item</h3>
+                <form onsubmit="saveItem(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Item Name</label>
+                            <input type="text" id="itemName" value="${item.name || ''}" required placeholder="e.g., Grilled Salmon">
+                        </div>
+                        <div class="form-group">
+                            <label>Price ($)</label>
+                            <input type="number" id="itemPrice" value="${item.price || ''}" required step="0.01" placeholder="29.99">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="itemCategory" required>
+                                <option value="appetizer" ${item.category === 'appetizer' ? 'selected' : ''}>Appetizer</option>
+                                <option value="main" ${item.category === 'main' ? 'selected' : ''}>Main Course</option>
+                                <option value="dessert" ${item.category === 'dessert' ? 'selected' : ''}>Dessert</option>
+                                <option value="beverage" ${item.category === 'beverage' ? 'selected' : ''}>Beverage</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Image URL</label>
+                            <input type="url" id="itemImage" value="${item.image || ''}" placeholder="https://example.com/image.jpg">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="itemDesc" rows="3" required placeholder="Describe the dish...">${item.description || ''}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Tags (comma separated)</label>
+                        <input type="text" id="itemTags" value="${item.tags ? item.tags.join(', ') : ''}" placeholder="Vegetarian, Spicy, Popular">
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">
+                        <i class="fas fa-save"></i> ${editingItem ? 'Update' : 'Add'} Item
+                    </button>
+                </form>
+            `;
+        }
+
+        function saveItem(e) {
+            e.preventDefault();
+            const menu = Storage.getMenu();
+            const newItem = {
+                id: editingItem ? editingItem.id : Date.now(),
+                name: document.getElementById('itemName').value,
+                price: parseFloat(document.getElementById('itemPrice').value),
+                category: document.getElementById('itemCategory').value,
+                image: document.getElementById('itemImage').value || 'https://via.placeholder.com/400x300?text=No+Image',
+                description: document.getElementById('itemDesc').value,
+                tags: document.getElementById('itemTags').value.split(',').map(t => t.trim()).filter(t => t)
+            };
+            
+            if (editingItem) {
+                const index = menu.findIndex(i => i.id === editingItem.id);
+                menu[index] = newItem;
+                showToast('Item updated successfully!', 'success');
+            } else {
+                menu.push(newItem);
+                showToast('Item added successfully!', 'success');
+            }
+            
+            Storage.setMenu(menu);
+            editingItem = null;
+            showAdminTab('menu');
+            renderMenu();
+            updateStats();
+            
+            // Simulate clicking the menu tab
+            document.querySelector('.admin-nav button').click();
+        }
+
+        function editItem(id) {
+            const menu = Storage.getMenu();
+            editingItem = menu.find(i => i.id === id);
+            showAdminTab('add');
+        }
+
+        function deleteItem(id) {
+            if (confirm('Are you sure you want to delete this item?')) {
+                let menu = Storage.getMenu();
+                menu = menu.filter(i => i.id !== id);
+                Storage.setMenu(menu);
+                renderMenu();
+                updateStats();
+                showToast('Item deleted', 'success');
+                showAdminTab('menu');
+                document.querySelector('.admin-nav button').click();
+            }
+        }
+
+        function completeOrder(orderId) {
+            const orders = Storage.getOrders();
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = 'completed';
+                Storage.setOrders(orders);
+                updateStats();
+                showToast('Order marked as completed!', 'success');
+                showAdminTab('orders');
+                document.querySelectorAll('.admin-nav button')[1].click();
+            }
+        }
+
+        function updateStats() {
+            const menu = Storage.getMenu();
+            const orders = Storage.getOrders();
+            const revenue = orders.filter(o => o.status === 'completed').reduce((sum, o) => sum + o.total, 0);
+            const pending = orders.filter(o => o.status === 'pending').length;
+            
+            document.getElementById('statMenuItems').textContent = menu.length;
+            document.getElementById('statOrders').textContent = orders.length;
+            document.getElementById('statRevenue').textContent = '$' + revenue.toFixed(0);
+            document.getElementById('statPending').textContent = pending;
+        }
+
+        // Utilities
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            const icon = toast.querySelector('i');
+            
+            msg.textContent = message;
+            toast.className = 'toast show ' + type;
+            icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function toggleMobileMenu() {
+            document.querySelector('.nav-links').classList.toggle('hidden');
+        }
+
+        // Close modal on outside click
+        document.getElementById('checkoutModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('checkoutModal')) closeCheckout();
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>Savor & Sage</h3>
+                <p>Crafting unforgettable dining experiences since 2015. Where passion meets the plate.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-yelp"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#" onclick="showSection('menu')">Our Menu</a></li>
+                    <li><a href="#" onclick="showSection('services')">Services</a></li>
+                    <li><a href="#" onclick="showSection('about')">About Us</a></li>
+                    <li><a href="#" onclick="showSection('contact')">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contact Info</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt" style="color: var(--primary); margin-right: 0.5rem;"></i> 123 Culinary Ave, Food City</li>
+                    <li><i class="fas fa-phone" style="color: var(--primary); margin-right: 0.5rem;"></i> +1 (555) 123-4567</li>
+                    <li><i class="fas fa-envelope" style="color: var(--primary); margin-right: 0.5rem;"></i> hello@savorandsage.com</li>
+                    <li><i class="fas fa-clock" style="color: var(--primary); margin-right: 0.5rem;"></i> Mon-Sun: 11AM - 11PM</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Savor & Sage. All rights reserved. Designed with <i class="fas fa-heart" style="color: var(--primary);"></i> for food lovers.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
